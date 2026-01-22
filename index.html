@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KARO | Elegancia Profesional</title>
     
+    <!-- Fuentes y Librerías -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
@@ -16,18 +17,22 @@
             --negro: #0a0a0a;
         }
 
+        /* Reset y Scroll suave */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            height: 100vh;
+            min-height: 100vh; /* Permite que crezca si es necesario */
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto; /* Habilita scroll si el contenido sobrepasa la pantalla */
             background: linear-gradient(-45deg, var(--negro), var(--gris), var(--beige), var(--negro));
             background-size: 400% 400%;
             animation: gradientAnim 15s ease infinite;
             color: white;
+            -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
         }
 
         @keyframes gradientAnim {
@@ -54,7 +59,7 @@
             100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
         }
 
-        /* --- CONTENEDOR CENTRAL --- */
+        /* --- CONTENEDOR PRINCIPAL COMPACTO --- */
         main {
             flex: 1;
             display: flex;
@@ -62,65 +67,68 @@
             justify-content: center;
             align-items: center;
             z-index: 5;
-            gap: 15px;
+            padding: 20px 0; /* Espacio para que no pegue a los bordes */
         }
 
-        /* LOGO IMAGEN SOBRE EL CUADRO */
+        /* LOGO AJUSTADO */
         .logo-wrapper {
             text-align: center;
             width: 100%;
-            padding: 10px;
+            padding-bottom: 10px;
         }
         .logo-img {
-            max-width: 180px; /* Ajuste ideal para celulares */
+            max-width: 150px; /* Un poco más compacto */
+            width: 40%;
             height: auto;
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
         }
 
-        /* CUADRO SLIDER */
+        /* CUADRO SLIDER DINÁMICO */
         .slider-frame {
             width: 85%;
-            max-width: 380px;
+            max-width: 350px;
             aspect-ratio: 1080 / 1350;
+            max-height: 55vh; /* Evita que sea demasiado alto en pantallas pequeñas */
             border-radius: 20px;
             overflow: hidden;
             border: 1.5px solid rgba(255,255,255,0.2);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
             animation: frameFloat 6s ease-in-out infinite;
             background: #000;
         }
 
         @keyframes frameFloat {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+            50% { transform: translateY(-8px); }
         }
 
         .swiper { width: 100%; height: 100%; }
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- FOOTER --- */
+        /* --- FOOTER COMPACTO --- */
         footer {
-            padding: 35px 20px;
+            padding: 20px 20px 30px;
             text-align: center;
             z-index: 10;
+            width: 100%;
         }
         .slogan {
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: 1.1rem;
-            margin-bottom: 25px;
+            font-size: 1rem;
+            margin-bottom: 15px;
             color: var(--beige-claro);
             letter-spacing: 1px;
         }
 
-        /* BOTÓN WHATSAPP PROFESIONAL */
+        /* BOTÓN WHATSAPP */
         .btn-wa {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             width: 100%;
-            max-width: 290px;
-            padding: 18px;
+            max-width: 260px;
+            padding: 16px;
             background: linear-gradient(135deg, var(--beige), #b8860b);
             color: #1a1a1a;
             text-decoration: none;
@@ -128,24 +136,32 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
-            font-size: 0.85rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s;
+            font-size: 0.8rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transition: transform 0.2s ease;
         }
-        .btn-wa:active { transform: scale(0.95); }
+        .btn-wa:active { transform: scale(0.96); }
+
+        /* Media Query para teléfonos muy pequeños */
+        @media (max-height: 600px) {
+            .logo-img { max-width: 120px; }
+            .slider-frame { max-height: 45vh; }
+            footer { padding-top: 10px; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Animación de fondo -->
     <div class="floating-letters" id="k-container"></div>
 
     <main>
-        <!-- LOGO COMO IMAGEN -->
+        <!-- Logo -->
         <div class="logo-wrapper">
             <img id="logo-img" src="" alt="KARO LOGO" class="logo-img">
         </div>
 
-        <!-- SLIDER -->
+        <!-- Slider Automático -->
         <div class="slider-frame">
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper" id="slide-container"></div>
@@ -158,33 +174,26 @@
         <a href="#" class="btn-wa" id="wa-btn">Agendar mi Cita</a>
     </footer>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
         /* 
-           =========================================================
-           CONFIGURACIÓN PARA GITHUB (Edita esto directamente)
-           =========================================================
+           CONFIGURACIÓN
+           Asegúrate de que los nombres de archivos coincidan en GitHub
         */
         const CONFIG = {
-            // Pon aquí el link de tu logo original (puedes subirlo a GitHub o PostImages)
             logoURL: "img1.png", 
-            
             slogan: "Elegancia en cada detalle",
-            
-            // Tu número de WhatsApp con código de país (sin símbolos ni espacios)
-            whatsapp: "+584125966071", 
-            
-            // Agrega aquí todas las imágenes que quieras (Links de PostImages o GitHub)
+            whatsapp: "584125884920", // Sin el "+" para el link directo
             imagenes: [
                 "ca1.png",
                 "ca2.png",
                 "ca3.png",
-                "ca4.png",
+                "ca4.png"
             ]
         };
 
-        // --- INICIALIZAR CONTENIDO ---
         function init() {
             // Cargar Logo
             document.getElementById('logo-img').src = CONFIG.logoURL;
@@ -192,18 +201,21 @@
             // Cargar Slogan
             document.getElementById('slogan-text').innerText = CONFIG.slogan;
             
-            // Configurar WhatsApp
+            // Link de WhatsApp (Mensaje personalizado)
             document.getElementById('wa-btn').href = `https://wa.me/${CONFIG.whatsapp}?text=Hola%20KARO,%20me%20gustaría%20agendar%20una%20cita.`;
             
-            // Cargar Imágenes al Slider
+            // Cargar Slider
             const container = document.getElementById('slide-container');
             container.innerHTML = CONFIG.imagenes.map(url => `
-                <div class="swiper-slide"><img src="${url}"></div>
+                <div class="swiper-slide"><img src="${url}" loading="lazy"></div>
             `).join('');
 
-            // Iniciar Slider Automático
+            // Configurar Swiper (Automático y suave)
             new Swiper(".mySwiper", {
-                autoplay: { delay: 3000, disableOnInteraction: false },
+                autoplay: { 
+                    delay: 3000, 
+                    disableOnInteraction: false 
+                },
                 effect: "fade",
                 fadeEffect: { crossFade: true },
                 loop: true,
@@ -211,18 +223,18 @@
             });
         }
 
-        // --- ANIMACIÓN DE FONDO (Letras K) ---
+        // Generador de letras 'K' flotantes
         function createK() {
             const container = document.getElementById('k-container');
             const k = document.createElement('div');
             k.className = 'letter-k';
             k.innerText = 'K';
             k.style.left = Math.random() * 100 + 'vw';
-            k.style.fontSize = (Math.random() * 30 + 20) + 'px';
+            k.style.fontSize = (Math.random() * 25 + 15) + 'px';
             container.appendChild(k);
             setTimeout(() => k.remove(), 12000);
         }
-        setInterval(createK, 2500);
+        setInterval(createK, 3000);
 
         init();
     </script>
