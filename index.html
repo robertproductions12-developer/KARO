@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KARO | Elegancia Profesional</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        :root {
+            --beige: #d2b48c;
+            --beige-claro: #f5f5dc;
+            --gris: #333333;
+            --negro: #0a0a0a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: linear-gradient(-45deg, var(--negro), var(--gris), var(--beige), var(--negro));
+            background-size: 400% 400%;
+            animation: gradientAnim 15s ease infinite;
+            color: white;
+        }
+
+        @keyframes gradientAnim {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- LETRAS K FLOTANTES --- */
+        .floating-letters {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+        }
+        .letter-k {
+            position: absolute;
+            font-family: 'Playfair Display', serif;
+            color: rgba(210, 180, 140, 0.15);
+            animation: float 12s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- CONTENEDOR CENTRAL --- */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 5;
+            gap: 15px;
+        }
+
+        /* LOGO IMAGEN SOBRE EL CUADRO */
+        .logo-wrapper {
+            text-align: center;
+            width: 100%;
+            padding: 10px;
+        }
+        .logo-img {
+            max-width: 180px; /* Ajuste ideal para celulares */
+            height: auto;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+        }
+
+        /* CUADRO SLIDER */
+        .slider-frame {
+            width: 85%;
+            max-width: 380px;
+            aspect-ratio: 1080 / 1350;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1.5px solid rgba(255,255,255,0.2);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            animation: frameFloat 6s ease-in-out infinite;
+            background: #000;
+        }
+
+        @keyframes frameFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .swiper { width: 100%; height: 100%; }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 35px 20px;
+            text-align: center;
+            z-index: 10;
+        }
+        .slogan {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: var(--beige-claro);
+            letter-spacing: 1px;
+        }
+
+        /* BOTÓN WHATSAPP PROFESIONAL */
+        .btn-wa {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 290px;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--beige), #b8860b);
+            color: #1a1a1a;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s;
+        }
+        .btn-wa:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+
+    <div class="floating-letters" id="k-container"></div>
+
+    <main>
+        <!-- LOGO COMO IMAGEN -->
+        <div class="logo-wrapper">
+            <img id="logo-img" src="" alt="KARO LOGO" class="logo-img">
+        </div>
+
+        <!-- SLIDER -->
+        <div class="slider-frame">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper" id="slide-container"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p class="slogan" id="slogan-text"></p>
+        <a href="#" class="btn-wa" id="wa-btn">Agendar mi Cita</a>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        /* 
+           =========================================================
+           CONFIGURACIÓN PARA GITHUB (Edita esto directamente)
+           =========================================================
+        */
+        const CONFIG = {
+            // Pon aquí el link de tu logo original (puedes subirlo a GitHub o PostImages)
+            logoURL: "https://i.postimg.cc/85M1JjHz/LOGO-KARO-BLANCO.png", 
+            
+            slogan: "Elegancia en cada detalle",
+            
+            // Tu número de WhatsApp con código de país (sin símbolos ni espacios)
+            whatsapp: "178638493", 
+            
+            // Agrega aquí todas las imágenes que quieras (Links de PostImages o GitHub)
+            imagenes: [
+                "https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1080&h=1350&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1080&h=1350&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=1080&h=1350&auto=format&fit=crop"
+            ]
+        };
+
+        // --- INICIALIZAR CONTENIDO ---
+        function init() {
+            // Cargar Logo
+            document.getElementById('logo-img').src = CONFIG.logoURL;
+            
+            // Cargar Slogan
+            document.getElementById('slogan-text').innerText = CONFIG.slogan;
+            
+            // Configurar WhatsApp
+            document.getElementById('wa-btn').href = `https://wa.me/${CONFIG.whatsapp}?text=Hola%20KARO,%20me%20gustaría%20agendar%20una%20cita.`;
+            
+            // Cargar Imágenes al Slider
+            const container = document.getElementById('slide-container');
+            container.innerHTML = CONFIG.imagenes.map(url => `
+                <div class="swiper-slide"><img src="${url}"></div>
+            `).join('');
+
+            // Iniciar Slider Automático
+            new Swiper(".mySwiper", {
+                autoplay: { delay: 3000, disableOnInteraction: false },
+                effect: "fade",
+                fadeEffect: { crossFade: true },
+                loop: true,
+                speed: 1000
+            });
+        }
+
+        // --- ANIMACIÓN DE FONDO (Letras K) ---
+        function createK() {
+            const container = document.getElementById('k-container');
+            const k = document.createElement('div');
+            k.className = 'letter-k';
+            k.innerText = 'K';
+            k.style.left = Math.random() * 100 + 'vw';
+            k.style.fontSize = (Math.random() * 30 + 20) + 'px';
+            container.appendChild(k);
+            setTimeout(() => k.remove(), 12000);
+        }
+        setInterval(createK, 2500);
+
+        init();
+    </script>
+</body>
+</html>
